@@ -13,9 +13,47 @@ function getComputerChoice(){
     }
 }
 
-function playRound(playerSelection, computerSelection) {
-    let cleanedPlayerSelection = playerSelection.toLowerCase();
+rockButton.addEventListener("click", function(e){
+    playRound("rock");
+});
+paperButton.addEventListener("click", function(e){
+    playRound("paper");
+});
+scissorsButton.addEventListener("click", function(e){
+    playRound("scissors");
+});
 
+function playerOneWin() {
+    const playerScore = document.querySelector("#playerOneScore");
+    playerScore.textContent = Number(playerScore.textContent) + 1;
+    checkForTotalWin(Number(playerScore.textContent), "Player");
+}
+
+function playerTwoWin() {
+    const playerScore = document.querySelector("#playerTwoScore");
+    playerScore.textContent = Number(playerScore.textContent) + 1;
+    checkForTotalWin(Number(playerScore.textContent), "Computer");
+}
+
+function checkForTotalWin(score, player) {
+    if(score >= 5) {
+        const resultText = document.querySelector("#resultText");
+        resultText.textContent = player + " has won!";
+    }
+
+}
+
+function showPlayerChoices(playerOneChoice, playerTwoChoice) {
+    const playerAction = document.querySelector("#playerOneChoice");
+    playerAction.textContent = playerOneChoice;
+    const computerAction = document.querySelector("#playerTwoChoice");
+    computerAction.textContent = playerTwoChoice;
+}
+
+function playRound(playerSelection) {
+    let computerSelection = getComputerChoice();
+    let cleanedPlayerSelection = playerSelection.toLowerCase();
+    showPlayerChoices(cleanedPlayerSelection, computerSelection);
     const loseText = "You Lose! " + computerSelection + " beats " + cleanedPlayerSelection;
     const winText = "You Win! " + cleanedPlayerSelection + " beats " + computerSelection;
     if(cleanedPlayerSelection === computerSelection) {
@@ -25,25 +63,31 @@ function playRound(playerSelection, computerSelection) {
 
     if(cleanedPlayerSelection === "rock"){
         if(computerSelection === "paper") {
+            playerTwoWin();
             console.log(loseText);
             return -1;
         } else {
+            playerOneWin();
             console.log(winText);
             return 1;
         }
     } else if (cleanedPlayerSelection === "paper") {
         if(computerSelection === "scissors") {
+            playerTwoWin();
             console.log(loseText);
             return -1;
         } else {
+            playerOneWin();
             console.log(winText);
             return 1;
         }
     } else if (cleanedPlayerSelection === "scissors") {
         if(computerSelection === "rock") {
+            playerTwoWin();
             console.log(loseText);
             return -1;
         } else {
+            playerOneWin();
             console.log(winText);
             return 1;
         }
